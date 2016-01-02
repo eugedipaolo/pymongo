@@ -1,0 +1,23 @@
+import pymongo
+import sys
+
+from pymongo import MongoClient
+connection = pymongo.MongoClient("mongodb://localhost")
+
+db=connection.test
+images = db.images
+albums = db.albums
+def remove_image():
+	try:
+		i=0
+		cursor_images = images.find()
+		for img in cursor_images:
+			
+			res = albums.find_one({'images': img['_id']})
+		
+			if res is None: 
+				images.delete_one({'_id':img['_id']})	
+		
+	except:  print "Error trying to read collection:"
+
+remove_image()
